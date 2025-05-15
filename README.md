@@ -31,12 +31,17 @@ dependency-check/bin/dependency-check.sh --version
 
 Si la instalación es correcta, se debería mostrar la versión de la herramienta en la terminal.
 
+![](images/ad1.png)
+
 ---
 
 ## Analizar un proyecto en Node.js
 
 Para verificar vulnerabilidades en las dependencias de un proyecto basado en Node.js, crea el archivo `package-lock.json` de ejemplo con dependencias vulnerables:
 
+Puedes [descargarlo desde aqui.](files/poackage-lock.json)
+
+archivo `files/package-lock.json`
 ```json
 {
   "name": "example-project",
@@ -69,14 +74,21 @@ Para verificar vulnerabilidades en las dependencias de un proyecto basado en Nod
 Y ejecutar Dependency-Check:
 
 ```bash
+
 dependency-check/bin/dependency-check.sh --scan package-lock.json --format HTML
 ```
+Cuando se ejecuta se descargan los registros de la NVD (National Vulnerability Database). Como son muchos, tarda un rato, o sea que paciencia¡¡¡
+
+![](images/ad2.png)
 
 Ejemplo de vulnerabilidad detectada:
 
 > **High severity:** `lodash@4.17.15` - Prototype Pollution vulnerability
 
 Después del análisis, Dependency-Check generará un informe en formato HTML con detalles sobre las vulnerabilidades encontradas.
+![](images/ad2.png)
+![](images/ad2.png)
+![](images/ad2.png)
 
 ---
 
