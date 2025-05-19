@@ -35,6 +35,17 @@ Si la instalación es correcta, se debería mostrar la versión de la herramient
 
 ---
 
+## Solicitamos una key en la API de NVD
+
+Si solicitamos un token en la API de la NVD: <https://nvd.nist.gov/developers/request-an-api-key> el proceso de escaneo será más rápido. 
+Para ello accedemos a la página de solicitud e introducimos nuestros datos.
+
+![](images/ad5.png)
+
+En el correo electrónico recibiremos un enlace para la confirmación. Después de validarla tendremos nuestro `key`. La guardamos para utilizarla en nuestra línea de comandos:
+
+![](images/ad4.png)
+
 ## Analizar un proyecto en Node.js
 
 Para verificar vulnerabilidades en las dependencias de un proyecto basado en Node.js, crea el archivo `package-lock.json` de ejemplo con dependencias vulnerables:
@@ -71,24 +82,51 @@ archivo `files/package-lock.json`
 }
 ```
 
+También, y como hemos descargado el proyecto Node-Goat de OWASP [en la actividad de Análisis Estático de Código](https://github.com/jmmedinac03vjp/PPS-AnalisisEstaticoCodigoSAST) puedes utilizarl este.
+
+Mis capturas las he realizado con OWASP NodeGoat
 Y ejecutar Dependency-Check:
 
 ```bash
 
-dependency-check/bin/dependency-check.sh --scan package-lock.json --format HTML
+./dependency-check/bin/dependency-check.sh --nvdApiKey XXXX-XXXX.XXXXXX --scan package-lock.json --format HTML
 ```
-Cuando se ejecuta se descargan los registros de la NVD (National Vulnerability Database). Como son muchos, tarda un rato, o sea que paciencia¡¡¡
 
-![](images/ad2.png)
+Explicación:
+
+- `--nvdApiKey` la key proporcionada por NVD
+- `--scan package-lock.json`la ubicación del archivo package-lock.json del proyecto a escanear.
+- `--format` HTML el formato del informe
+
+Cuando se ejecuta se descargan los registros de la NVD (National Vulnerability Database). 
+
+Si no usamos la nvdApiKey, tardará más, o sea que como son muchos, tarda un rato, o sea que paciencia¡¡¡
+
+![](images/ad6.png)
+
+
+## Análisis del informe
+
+Nos vamos a la ubicación del archivo donde se ha guardado el informe, en nuestro caso `dependency-check-report.html` y vemos los resultados:
+
+![](images/ad6.png)
+
+Podemos observar que al ser una aplicación vulnerable tenemos muchas dependencias con riesgos:
+
+![](images/ad7.png)
+
+Además podemos ver información del paquete afectado, la gravedad del riesgo y el número de CVE que pueden explotarlo.
 
 Ejemplo de vulnerabilidad detectada:
 
-> **High severity:** `lodash@4.17.15` - Prototype Pollution vulnerability
+> **adm-zip:0.4.4**		**pkg:npm/adm-zip@0.4.4**	Riesgo **MEDIUM** La libreria `adm-zip` de `npm` Es vulnerable al ataque Path transversal
 
-Después del análisis, Dependency-Check generará un informe en formato HTML con detalles sobre las vulnerabilidades encontradas.
-![](images/ad2.png)
-![](images/ad2.png)
-![](images/ad2.png)
+
+![](images/ad8.png)
+
+Además podemos obtener una amplia información sobre el problema de esa dependencia.
+
+![](images/ad9.png)
 
 ---
 
